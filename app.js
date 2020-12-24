@@ -2,9 +2,9 @@ const express = require("express")
 
 const app = express()
 
-app.get('/',(req,res)=>{
-    res.send('hello server')
-})
+const exampleRoute = require('./routes/exampleRoute')
+
+app.use('/', exampleRoute)
 
 const PORT = 5000
 app.listen(PORT,()=>{
