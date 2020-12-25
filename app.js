@@ -1,12 +1,49 @@
+// Reuired File
+
 const express = require("express")
+const cors = require("cors")
+const mongoose= require("mongoose")
+
+// Instantiate Express
 
 const app = express()
 
-const exampleRoute = require('./routes/exampleRoute')
+// Middleware
 
-app.use('/', exampleRoute)
+app.use(cors())
+app.use(express.json())
+app.use(express.urlencoded({
+  extended:true
+}))
 
-const PORT = 5000
+// MongoDB Connection
+
+const url = "mongodb+srv://Ashish:1234@cluster0.oqqjq.mongodb.net/noddeClass?retryWrites=true&w=majority";
+mongoose.connect(url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify:true,
+  useCreateIndex:true
+})
+.then(() => {
+  console.log("MongoDB Connected…")
+}).catch(err => console.log(err))
+
+
+// Require Route 
+
+const exampleRoute = require("./routes/exampleRoute")
+const userRoute = require("./routes/userRoutes")
+
+// Adding url
+
+app.use('/',exampleRoute)
+app.use('/user',userRoute)
+
+
+// Adding port to run node app
+
+const PORT = 3000
 app.listen(PORT,()=>{
-    console.log("Server is running")
+    console.log(`server running on port ${PORT}`);
 })
